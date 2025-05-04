@@ -7,11 +7,18 @@ import MangaLayout from "./(mangas)/MangaLayout";
 import Search from "./Search";
 import GlobalFallback from "./GlobalFallback";
 
-import { createBrowserRouter, RouterProvider } from "react-router";
+import {
+  createBrowserRouter,
+  redirect,
+  RouterProvider,
+  useNavigate,
+} from "react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import "./global.css";
 import GlobalErrorBoundary from "./GlobalErrorBoundary";
+import AgeVerify from "./(nsfw)/AgeVerify";
+import NSFWHome from "./(nsfw)/Home";
 
 const queryClient = new QueryClient();
 
@@ -67,6 +74,23 @@ const router = createBrowserRouter([
     },
     ErrorBoundary: GlobalErrorBoundary,
     HydrateFallback: GlobalFallback,
+  },
+  {
+    path: "/nsfw",
+    ErrorBoundary: GlobalErrorBoundary,
+    HydrateFallback: GlobalFallback,
+    children: [
+      {
+        path: "age-verify",
+        Component: AgeVerify,
+        ErrorBoundary: GlobalErrorBoundary,
+        HydrateFallback: GlobalFallback,
+      },
+      {
+        index: true,
+        Component: NSFWHome,
+      },
+    ],
   },
 ]);
 

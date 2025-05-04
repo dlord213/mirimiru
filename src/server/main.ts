@@ -405,6 +405,322 @@ app.get("/api/manganato/get-manga-images", async (req, res) => {
   }
 });
 
+app.get("/api/manhwa18cc/get-latest-manhwa-updates", async (req, res) => {
+  try {
+    const { data } = await axios.get("https://manhwa18.cc/", {
+      headers: {
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+        Referer: "https://manhwa18.cc/",
+        "Accept-Language": "en-US,en;q=0.9",
+      },
+    });
+
+    const $ = cheerio.load(data);
+
+    const results: any[] = [];
+
+    $(".manga-lists .manga-item").each((i, el) => {
+      const title = $(el).find("h3 a").text().trim();
+      const link = $(el).find("h3 a").attr("href")?.split("/").pop();
+      const img =
+        $(el).find(".thumb img").attr("data-src") ||
+        $(el).find(".thumb img").attr("src");
+      const rating = $(el).find(".my-rating").attr("data-rating") || "N/A";
+
+      const chapters: any[] = [];
+      $(el)
+        .find(".chapter-item")
+        .each((j, chapterEl) => {
+          const chapterTitle = $(chapterEl).find(".chapter a").text().trim();
+          const chapterUrl = $(chapterEl)
+            .find(".chapter a")
+            .attr("href")
+            ?.replace("/webtoon/", "");
+          const date = $(chapterEl).find(".post-on").text().trim() || "N/A";
+
+          chapters.push({
+            title: chapterTitle,
+            url: chapterUrl,
+            date: date,
+          });
+        });
+
+      const lastUpdated =
+        chapters.find((ch) => ch.date !== "N/A")?.date || "N/A";
+
+      results.push({
+        title,
+        url: link,
+        img,
+        rating,
+        chapters,
+        last_updated: lastUpdated,
+      });
+    });
+
+    res.send({ manhwas: results });
+  } catch (err) {
+    res.send({ status: 400, error: err });
+  }
+});
+
+app.get("/api/manhwa18cc/get-manhwas", async (req, res) => {
+  try {
+    const { data } = await axios.get(
+      !req.query.page
+        ? "https://manhwa18.cc/webtoons"
+        : `https://manhwa18.cc/webtoons/${req.query.page}`,
+      {
+        headers: {
+          "User-Agent":
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+          Referer: "https://manhwa18.cc/",
+          "Accept-Language": "en-US,en;q=0.9",
+        },
+      },
+    );
+
+    const $ = cheerio.load(data);
+    const results: any[] = [];
+
+    $(".manga-lists .manga-item").each((i, el) => {
+      const title = $(el).find("h3 a").text().trim();
+      const link = $(el).find("h3 a").attr("href")?.split("/").pop();
+      const img =
+        $(el).find(".thumb img").attr("data-src") ||
+        $(el).find(".thumb img").attr("src");
+      const rating = $(el).find(".my-rating").attr("data-rating") || "N/A";
+
+      const chapters: any[] = [];
+      $(el)
+        .find(".chapter-item")
+        .each((j, chapterEl) => {
+          const chapterTitle = $(chapterEl).find(".chapter a").text().trim();
+          const chapterUrl = $(chapterEl)
+            .find(".chapter a")
+            .attr("href")
+            ?.replace("/webtoon/", "");
+          const date = $(chapterEl).find(".post-on").text().trim() || "N/A";
+
+          chapters.push({
+            title: chapterTitle,
+            url: chapterUrl,
+            date: date,
+          });
+        });
+
+      const lastUpdated =
+        chapters.find((ch) => ch.date !== "N/A")?.date || "N/A";
+
+      results.push({
+        title,
+        url: link,
+        img,
+        rating,
+        chapters,
+        last_updated: lastUpdated,
+      });
+    });
+
+    res.send({ manhwas: results });
+  } catch (err) {
+    res.send({ status: 400, error: err });
+  }
+});
+
+app.get("/api/manhwa18cc/get-high-ratings-manhwas", async (req, res) => {
+  try {
+    const { data } = await axios.get(
+      !req.query.page
+        ? "https://manhwa18.cc/webtoons?orderby=rating"
+        : `https://manhwa18.cc/webtoons/${req.query.page}?orderby=rating`,
+      {
+        headers: {
+          "User-Agent":
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+          Referer: "https://manhwa18.cc/",
+          "Accept-Language": "en-US,en;q=0.9",
+        },
+      },
+    );
+
+    const $ = cheerio.load(data);
+    const results: any[] = [];
+
+    $(".manga-lists .manga-item").each((i, el) => {
+      const title = $(el).find("h3 a").text().trim();
+      const link = $(el).find("h3 a").attr("href")?.split("/").pop();
+      const img =
+        $(el).find(".thumb img").attr("data-src") ||
+        $(el).find(".thumb img").attr("src");
+      const rating = $(el).find(".my-rating").attr("data-rating") || "N/A";
+
+      const chapters: any[] = [];
+      $(el)
+        .find(".chapter-item")
+        .each((j, chapterEl) => {
+          const chapterTitle = $(chapterEl).find(".chapter a").text().trim();
+          const chapterUrl = $(chapterEl)
+            .find(".chapter a")
+            .attr("href")
+            ?.replace("/webtoon/", "");
+          const date = $(chapterEl).find(".post-on").text().trim() || "N/A";
+
+          chapters.push({
+            title: chapterTitle,
+            url: chapterUrl,
+            date: date,
+          });
+        });
+
+      const lastUpdated =
+        chapters.find((ch) => ch.date !== "N/A")?.date || "N/A";
+
+      results.push({
+        title,
+        url: link,
+        img,
+        rating,
+        chapters,
+        last_updated: lastUpdated,
+      });
+    });
+
+    res.send({ manhwas: results });
+  } catch (err) {
+    res.send({ status: 400, error: err });
+  }
+});
+
+app.get("/api/manhwa18cc/get-trending-manhwas", async (req, res) => {
+  try {
+    const { data } = await axios.get(
+      !req.query.page
+        ? "https://manhwa18.cc/webtoons?orderby=trending"
+        : `https://manhwa18.cc/webtoons/${req.query.page}?orderby=trending`,
+      {
+        headers: {
+          "User-Agent":
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+          Referer: "https://manhwa18.cc/",
+          "Accept-Language": "en-US,en;q=0.9",
+        },
+      },
+    );
+
+    const $ = cheerio.load(data);
+    const results: any[] = [];
+
+    $(".manga-lists .manga-item").each((i, el) => {
+      const title = $(el).find("h3 a").text().trim();
+      const link = $(el).find("h3 a").attr("href")?.split("/").pop();
+      const img =
+        $(el).find(".thumb img").attr("data-src") ||
+        $(el).find(".thumb img").attr("src");
+      const rating = $(el).find(".my-rating").attr("data-rating") || "N/A";
+
+      const chapters: any[] = [];
+      $(el)
+        .find(".chapter-item")
+        .each((j, chapterEl) => {
+          const chapterTitle = $(chapterEl).find(".chapter a").text().trim();
+          const chapterUrl = $(chapterEl)
+            .find(".chapter a")
+            .attr("href")
+            ?.replace("/webtoon/", "");
+          const date = $(chapterEl).find(".post-on").text().trim() || "N/A";
+
+          chapters.push({
+            title: chapterTitle,
+            url: chapterUrl,
+            date: date,
+          });
+        });
+
+      const lastUpdated =
+        chapters.find((ch) => ch.date !== "N/A")?.date || "N/A";
+
+      results.push({
+        title,
+        url: link,
+        img,
+        rating,
+        chapters,
+        last_updated: lastUpdated,
+      });
+    });
+
+    res.send({ manhwas: results });
+  } catch (err) {
+    res.send({ status: 400, error: err });
+  }
+});
+
+app.get("/api/manhwa18cc/get-completed-manhwas", async (req, res) => {
+  try {
+    const { data } = await axios.get(
+      !req.query.page
+        ? "https://manhwa18.cc/completed"
+        : `https://manhwa18.cc/completed/${req.query.page}`,
+      {
+        headers: {
+          "User-Agent":
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+          Referer: "https://manhwa18.cc/",
+          "Accept-Language": "en-US,en;q=0.9",
+        },
+      },
+    );
+
+    const $ = cheerio.load(data);
+    const results: any[] = [];
+
+    $(".manga-lists .manga-item").each((i, el) => {
+      const title = $(el).find("h3 a").text().trim();
+      const link = $(el).find("h3 a").attr("href")?.split("/").pop();
+      const img =
+        $(el).find(".thumb img").attr("data-src") ||
+        $(el).find(".thumb img").attr("src");
+      const rating = $(el).find(".my-rating").attr("data-rating") || "N/A";
+
+      const chapters: any[] = [];
+      $(el)
+        .find(".chapter-item")
+        .each((j, chapterEl) => {
+          const chapterTitle = $(chapterEl).find(".chapter a").text().trim();
+          const chapterUrl = $(chapterEl)
+            .find(".chapter a")
+            .attr("href")
+            ?.replace("/webtoon/", "");
+          const date = $(chapterEl).find(".post-on").text().trim() || "N/A";
+
+          chapters.push({
+            title: chapterTitle,
+            url: chapterUrl,
+            date: date,
+          });
+        });
+
+      const lastUpdated =
+        chapters.find((ch) => ch.date !== "N/A")?.date || "N/A";
+
+      results.push({
+        title,
+        url: link,
+        img,
+        rating,
+        chapters,
+        last_updated: lastUpdated,
+      });
+    });
+
+    res.send({ manhwas: results });
+  } catch (err) {
+    res.send({ status: 400, error: err });
+  }
+});
+
 app.get("/api/image-proxy", async (req, res) => {
   try {
     const imageUrl = req.query.url as string;
