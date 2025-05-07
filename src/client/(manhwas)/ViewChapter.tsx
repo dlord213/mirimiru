@@ -1,12 +1,12 @@
-import MangaContext from "../contexts/MangaContext";
+import ManhwaContext from "../contexts/ManhwaContext";
 
-import { NavLink, useLoaderData } from "react-router";
-import { useContext, useState } from "react";
-import { ArrowLeft, ArrowRight, Home } from "lucide-react";
+import { NavLink, To, useLoaderData } from "react-router";
+import { useContext, useEffect, useState } from "react";
+import { ArrowLeft, ArrowRight, Book, Home } from "lucide-react";
 
-export default function ViewMangaChapter() {
+export default function ViewManhwaChapter() {
   let data = useLoaderData();
-  const mangaData = useContext(MangaContext);
+  const manhwaData = useContext(ManhwaContext);
 
   const [mode, setMode] = useState("Manhwa"); // Manga | Manhwa
   const [currentImageIndex, setCurrentIndex] = useState(0);
@@ -17,6 +17,11 @@ export default function ViewMangaChapter() {
   const gotoNext = () =>
     currentImageIndex + 1 < data.images.length &&
     setCurrentIndex(currentImageIndex + 1);
+
+  useEffect(() => {
+    console.log(data);
+    console.log(manhwaData);
+  }, [data, manhwaData]);
 
   const pages = [
     <>
@@ -54,7 +59,7 @@ export default function ViewMangaChapter() {
     <main className="relative mx-auto flex h-screen max-w-7xl flex-col gap-4">
       {mode == "Manhwa" ? pages[1] : pages[0]}
       <div className="absolute bottom-4 z-50 flex w-full max-w-xl items-center gap-4 self-center rounded-3xl bg-gray-100 p-4 shadow-lg">
-        <NavLink to={`/manga/${mangaData.manga.mangaUrl}`}>
+        <NavLink to={`/manhwa/${manhwaData.manhwa.url.split("/").pop()}`}>
           <Home
             size={36}
             color={"#242424"}
@@ -102,16 +107,12 @@ export default function ViewMangaChapter() {
           >
             <div className="card-body max-h-[50vh] overflow-scroll">
               <p>Chapters</p>
-              {mangaData.chapters.map(
-                (chapter: {
-                  link: string;
-                  title: string;
-                  uploadDate: string;
-                }) => (
+              {manhwaData.manhwa.chapters.map(
+                (chapter: { url: string; title: string; date: string }) => (
                   <NavLink
-                    to={`/manga/${mangaData.manga.mangaUrl}/${chapter.link}`}
+                    to={`/manhwa/${manhwaData.manhwa.url.split("/").pop()}/${chapter.url}`}
                     className="flex flex-col gap-2 rounded-3xl bg-gray-100 p-4 shadow"
-                    key={chapter.link}
+                    key={chapter.url}
                   >
                     <h1 className="text-lg font-medium">{chapter.title}</h1>
                   </NavLink>

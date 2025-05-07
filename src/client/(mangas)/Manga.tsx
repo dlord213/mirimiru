@@ -2,8 +2,8 @@ import Header from "../components/Header";
 import dayjs from "dayjs";
 import MangaContext from "../contexts/MangaContext";
 
-import { NavLink, To, useLoaderData } from "react-router";
-import { useContext, useEffect } from "react";
+import { NavLink } from "react-router";
+import { useContext } from "react";
 import { ChartArea, Clock, UserPen } from "lucide-react";
 
 export default function Manga() {
@@ -23,7 +23,7 @@ export default function Manga() {
         <div className="flex flex-row items-start gap-8 px-8">
           <img
             src={`/api/image-proxy?url=${data.manga.imageUrl}`}
-            className="h-[45vh] rounded-3xl object-contain"
+            className="h-[50vh] rounded-3xl object-contain"
           />
           <div className="flex max-h-[45vh] flex-col gap-4 overflow-scroll">
             <h1 className="text-3xl font-black text-white text-shadow-black text-shadow-md">
@@ -35,7 +35,7 @@ export default function Manga() {
               </p>
             )}
             {data.manga.summary && (
-              <p className="h-[18vh] overflow-scroll font-medium text-gray-200 text-shadow-black text-shadow-sm">
+              <p className="h-[27vh] overflow-scroll font-medium text-gray-200 text-shadow-black text-shadow-sm">
                 {data.manga.summary}
               </p>
             )}

@@ -37,7 +37,7 @@ function Home() {
       <Header />
       <div className="flex flex-col gap-4">
         <h1 className="text-4xl font-black">Popular titles</h1>
-        {hottestMangaData ? (
+        {hottestMangaData && hottestMangaData.status == 200 ? (
           <div className="grid grid-cols-6 gap-4 rounded-3xl border border-gray-200 bg-gray-50 p-8 shadow-md">
             {hottestMangaData.mangas.slice(0, 6).map((manga: any) => (
               <NavLink
@@ -70,7 +70,7 @@ function Home() {
       </div>
       <div className="flex flex-col gap-4">
         <h1 className="text-4xl font-black">Latest releases</h1>
-        {latestMangaReleases ? (
+        {latestMangaReleases && latestMangaReleases.status == 200 ? (
           <div className="grid grid-cols-3 gap-4 rounded-3xl border border-gray-200 bg-gray-50 p-8 shadow-md">
             {latestMangaReleases.new_releases.map((release: any) => (
               <NavLink

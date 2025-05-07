@@ -405,7 +405,7 @@ app.get("/api/manganato/get-manga-images", async (req, res) => {
   }
 });
 
-app.get("/api/manhwa18cc/get-latest-manhwa-updates", async (req, res) => {
+app.get("/api/manhwa18cc/get-latest-manhwas", async (req, res) => {
   try {
     const { data } = await axios.get("https://manhwa18.cc/", {
       headers: {
@@ -459,7 +459,7 @@ app.get("/api/manhwa18cc/get-latest-manhwa-updates", async (req, res) => {
       });
     });
 
-    res.send({ manhwas: results });
+    res.send({ manhwas: results, status: 200 });
   } catch (err) {
     res.send({ status: 400, error: err });
   }
@@ -523,7 +523,7 @@ app.get("/api/manhwa18cc/get-manhwas", async (req, res) => {
       });
     });
 
-    res.send({ manhwas: results });
+    res.send({ manhwas: results, status: 200 });
   } catch (err) {
     res.send({ status: 400, error: err });
   }
@@ -587,7 +587,7 @@ app.get("/api/manhwa18cc/get-high-ratings-manhwas", async (req, res) => {
       });
     });
 
-    res.send({ manhwas: results });
+    res.send({ manhwas: results, status: 200 });
   } catch (err) {
     res.send({ status: 400, error: err });
   }
@@ -651,7 +651,7 @@ app.get("/api/manhwa18cc/get-trending-manhwas", async (req, res) => {
       });
     });
 
-    res.send({ manhwas: results });
+    res.send({ manhwas: results, status: 200 });
   } catch (err) {
     res.send({ status: 400, error: err });
   }
@@ -715,9 +715,147 @@ app.get("/api/manhwa18cc/get-completed-manhwas", async (req, res) => {
       });
     });
 
-    res.send({ manhwas: results });
+    res.send({ manhwas: results, status: 200 });
   } catch (err) {
     res.send({ status: 400, error: err });
+  }
+});
+
+app.get("/api/manhwa18cc/get-manhwa-info", async (req, res) => {
+  try {
+    const { data } = await axios.get(
+      `https://manhwa18.cc/webtoon/${req.query.title}`,
+      {
+        headers: {
+          "User-Agent":
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+          Referer: "https://manhwa18.cc/",
+          "Accept-Language": "en-US,en;q=0.9",
+        },
+      },
+    );
+
+    const $ = cheerio.load(data);
+    const _tab_summary = $(".tab-summary");
+
+    const title = _tab_summary.find("a[title]").attr("title");
+    const image =
+      _tab_summary.find(".summary_image img").attr("data-src") ||
+      _tab_summary.find(".summary_image img").attr("src");
+    const url = _tab_summary.find(".summary_image a").attr("href");
+
+    const ratingValue = _tab_summary.find("#averagerate").text().trim();
+    const ratingCount = _tab_summary.find("#countrate").text().trim();
+
+    const alternativeTitles = _tab_summary
+      .find(".post-content_item")
+      .filter((_, el) => $(el).find("h5").text().trim() === "Alternative:")
+      .find(".summary-content")
+      .text()
+      .trim();
+
+    const author = _tab_summary.find(".author-content a").text().trim();
+    const artist = _tab_summary.find(".artist-content a").text().trim();
+
+    const genres: any = [];
+    _tab_summary.find(".genres-content a").each((i, el) => {
+      genres.push($(el).text().trim());
+    });
+
+    const release = _tab_summary
+      .find(".post-content_item")
+      .filter((_, el) => $(el).find("h5").text().trim() === "Release")
+      .find(".summary-content")
+      .text()
+      .trim();
+
+    const status = _tab_summary
+      .find(".post-content_item")
+      .filter((_, el) => $(el).find("h5").text().trim() === "Status")
+      .find(".summary-content")
+      .text()
+      .trim();
+
+    const type = _tab_summary
+      .find(".post-content_item")
+      .filter((_, el) => $(el).find("h5").text().trim() === "Type")
+      .find(".summary-content")
+      .text()
+      .trim();
+
+    const summary = $(".panel-story-description p").text().trim();
+
+    const chapters: any[] = [];
+
+    $("#chapterlist li.a-h").each((_, el) => {
+      const chapterEl = $(el).find("a.chapter-name");
+      const title = chapterEl.text().trim();
+      const url = chapterEl.attr("href")?.split("/").pop();
+      const date = $(el).find(".chapter-time").text().trim(); // optional, may be empty
+
+      chapters.push({ title, url, date });
+    });
+
+    const result = {
+      title,
+      image,
+      url,
+      rating: {
+        value: ratingValue,
+        count: ratingCount,
+      },
+      alternativeTitles,
+      author,
+      artist,
+      genres,
+      type,
+      release,
+      status,
+      summary,
+      chapters,
+    };
+
+    res.send({ status: 200, manhwa: result });
+  } catch (err) {
+    res.send({ status: 400, error: err });
+  }
+});
+
+app.get("/api/manhwa18cc/get-manhwa-images", async (req, res) => {
+  if (!req.query.title) {
+    return res.send({ status: 400, message: "Manhwa title required!" });
+  }
+
+  if (!req.query.chapter) {
+    return res.send({ status: 400, message: "Manhwa chapter required!" });
+  }
+
+  try {
+    const { data } = await axios.get(
+      `https://manhwa18.cc/webtoon/${req.query.title}/${req.query.chapter}`,
+      {
+        headers: {
+          "User-Agent":
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+          Referer: "https://manhwa18.cc/",
+          "Accept-Language": "en-US,en;q=0.9",
+        },
+      },
+    );
+
+    const $ = cheerio.load(data);
+    const chapterImgSrcs: any[] = [];
+
+    $(".read-content img").each((index, element) => {
+      chapterImgSrcs.push({
+        src: $(element).attr("src"),
+        alt: $(element).attr("alt"),
+      });
+    });
+
+    res.send({ images: chapterImgSrcs });
+  } catch (err) {
+    res.send({ error: err, status: 400 });
   }
 });
 

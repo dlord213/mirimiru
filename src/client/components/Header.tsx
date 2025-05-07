@@ -16,31 +16,31 @@ export default function Header() {
       </NavLink>
       <div className="flex flex-row items-center gap-4">
         <NavLink
-          to={"latest"}
+          to={"/latest"}
           className="rounded-3xl px-6 py-2 hover:bg-gray-200/50"
         >
           <h1>Latest</h1>
         </NavLink>
         <NavLink
-          to={"hottest"}
+          to={"/hottest"}
           className="rounded-3xl px-6 py-2 hover:bg-gray-200/50"
         >
           <h1>Hottest</h1>
         </NavLink>
         <NavLink
-          to={"popular"}
+          to={"/popular"}
           className="rounded-3xl px-6 py-2 hover:bg-gray-200/50"
         >
           <h1>Popular</h1>
         </NavLink>
         <NavLink
-          to={"genres"}
+          to={"/genres"}
           className="rounded-3xl px-6 py-2 hover:bg-gray-200/50"
         >
           <h1>Genres</h1>
         </NavLink>
         <NavLink
-          to={"nsfw"}
+          to={"/nsfw"}
           className="rounded-3xl px-6 py-2 hover:bg-gray-200/50"
         >
           <h1>NSFW</h1>
