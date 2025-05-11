@@ -47,7 +47,7 @@ export default function ViewManhwaChapter() {
       </div>
     </>,
     <>
-      <div className="flex flex-col overflow-scroll">
+      <div className="flex flex-col overflow-y-auto">
         {data.images.map((_) => (
           <img src={`/api/image-proxy?url=${_.src}`} className="" key={_.alt} />
         ))}
@@ -58,12 +58,11 @@ export default function ViewManhwaChapter() {
   return (
     <main className="relative mx-auto flex h-screen max-w-7xl flex-col gap-4">
       {mode == "Manhwa" ? pages[1] : pages[0]}
-      <div className="absolute bottom-4 z-50 flex w-full max-w-xl items-center gap-4 self-center rounded-3xl bg-gray-100 p-4 shadow-lg">
+      <div className="absolute bottom-4 z-50 flex w-full max-w-xl items-center gap-4 self-center rounded-3xl bg-gray-100 p-4 shadow-lg dark:bg-stone-700 dark:shadow-none">
         <NavLink to={`/manhwa/${manhwaData.manhwa.url.split("/").pop()}`}>
           <Home
             size={36}
-            color={"#242424"}
-            className="rounded-full p-1 transition-all delay-0 duration-300 hover:cursor-pointer hover:bg-gray-300"
+            className="rounded-full p-1 transition-all delay-0 duration-300 hover:cursor-pointer hover:bg-gray-300 dark:text-stone-400 dark:hover:bg-stone-800"
           />
         </NavLink>
         <div className="dropdown dropdown-top flex-1">
@@ -105,13 +104,13 @@ export default function ViewManhwaChapter() {
             tabIndex={0}
             className="dropdown-content card card-sm bg-base-100 z-1 w-64 shadow-md"
           >
-            <div className="card-body max-h-[50vh] overflow-scroll">
+            <div className="card-body max-h-[50vh] overflow-auto">
               <p>Chapters</p>
               {manhwaData.manhwa.chapters.map(
                 (chapter: { url: string; title: string; date: string }) => (
                   <NavLink
                     to={`/manhwa/${manhwaData.manhwa.url.split("/").pop()}/${chapter.url}`}
-                    className="flex flex-col gap-2 rounded-3xl bg-gray-100 p-4 shadow"
+                    className="btn btn-soft btn-neutral my-1 dark:border-none dark:bg-stone-800 dark:text-stone-50 dark:hover:bg-stone-700"
                     key={chapter.url}
                   >
                     <h1 className="text-lg font-medium">{chapter.title}</h1>

@@ -8,6 +8,7 @@ const app = express();
 
 app.use(cors());
 
+// ========================== Manga APIs ========================== //
 app.get("/api/manganato/get-latest-manga", async (req, res) => {
   try {
     const { data } = await axios.get(
@@ -72,6 +73,66 @@ app.get("/api/manganato/get-hottest-manga", async (req, res) => {
   try {
     const { data } = await axios.get(
       `https://www.natomanga.com/manga-list/hot-manga?page=${req.query.page || "1"}`,
+      {
+        headers: {
+          "User-Agent":
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+          Referer: "https://www.natomanga.com/",
+          "Accept-Language": "en-US,en;q=0.9",
+        },
+      },
+    );
+    const $ = cheerio.load(data);
+
+    const mangas: {
+      title: string;
+      mangaUrl: string | undefined;
+      imageUrl: string | undefined;
+      latestChapter: string;
+      chapterUrl: string | undefined;
+      views: string;
+      description: string;
+    }[] = [];
+
+    $(".list-truyen-item-wrap").each((i, el) => {
+      const title = $(el).find("h3 a").text().trim();
+      const mangaUrl = $(el)
+        .find("a.list-story-item")
+        .attr("href")
+        ?.split("/")
+        .pop();
+      const imageUrl = $(el).find("img").attr("src");
+      const latestChapter = $(el)
+        .find("a.list-story-item-wrap-chapter")
+        .text()
+        .trim();
+      const chapterUrl = $(el)
+        .find("a.list-story-item-wrap-chapter")
+        .attr("href");
+      const views = $(el).find(".aye_icon").text().trim();
+      const description = $(el).find("p").text().trim();
+
+      mangas.push({
+        title,
+        mangaUrl,
+        imageUrl,
+        latestChapter,
+        chapterUrl,
+        views,
+        description,
+      });
+    });
+
+    res.send({ status: 200, mangas: mangas });
+  } catch (err) {
+    res.send({ status: 400, error: err });
+  }
+});
+
+app.get("/api/manganato/get-completed-manga", async (req, res) => {
+  try {
+    const { data } = await axios.get(
+      `https://www.natomanga.com/manga-list/completed-manga?page=${req.query.page || "1"}`,
       {
         headers: {
           "User-Agent":
@@ -404,7 +465,9 @@ app.get("/api/manganato/get-manga-images", async (req, res) => {
     res.send({ error: err, status: 400 });
   }
 });
+// ========================== Manga APIs ========================== //
 
+// ========================== Manhwa APIs ========================== //
 app.get("/api/manhwa18cc/get-latest-manhwas", async (req, res) => {
   try {
     const { data } = await axios.get("https://manhwa18.cc/", {
@@ -859,6 +922,7 @@ app.get("/api/manhwa18cc/get-manhwa-images", async (req, res) => {
   }
 });
 
+// ========================== Image Proxy API ========================== //
 app.get("/api/image-proxy", async (req, res) => {
   try {
     const imageUrl = req.query.url as string;
@@ -880,6 +944,7 @@ app.get("/api/image-proxy", async (req, res) => {
     res.status(500).send("Failed to proxy image");
   }
 });
+// ========================== Image Proxy API ========================== //
 
 ViteExpress.listen(app, 3000, () =>
   console.log("Server is listening on port 3000..."),

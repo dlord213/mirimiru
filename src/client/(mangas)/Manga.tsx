@@ -25,17 +25,17 @@ export default function Manga() {
             src={`/api/image-proxy?url=${data.manga.imageUrl}`}
             className="h-[50vh] rounded-3xl object-contain"
           />
-          <div className="flex max-h-[45vh] flex-col gap-4 overflow-scroll">
+          <div className="flex max-h-[45vh] flex-col gap-4">
             <h1 className="text-3xl font-black text-white text-shadow-black text-shadow-md">
               {data.manga.title}
             </h1>
             {data.manga.alternativeTitles && (
-              <p className="h-fit overflow-scroll text-sm font-medium text-gray-300 text-shadow-black text-shadow-sm">
+              <p className="h-fit text-sm font-medium text-gray-300 text-shadow-black text-shadow-sm">
                 {data.manga.alternativeTitles}
               </p>
             )}
             {data.manga.summary && (
-              <p className="h-[27vh] overflow-scroll font-medium text-gray-200 text-shadow-black text-shadow-sm">
+              <p className="h-[23vh] overflow-y-auto font-medium text-gray-200 text-shadow-black text-shadow-sm">
                 {data.manga.summary}
               </p>
             )}
@@ -65,10 +65,10 @@ export default function Manga() {
         </div>
         <div className="grid grid-cols-[0.5fr_1fr] gap-16 px-8">
           <div className="sticky top-28 flex h-screen flex-col gap-4">
-            <h1 className="text-xl font-medium">Genres</h1>
+            <h1 className="text-xl font-medium dark:text-stone-50">Genres</h1>
             <div className="flex flex-row flex-wrap gap-2">
               {data.manga.genres.map((genre: string) => (
-                <p className="w-fit bg-gray-100 p-4 shadow">
+                <p className="w-fit rounded-xl bg-gray-100 p-4 shadow dark:bg-stone-700 dark:text-stone-50 dark:shadow-none">
                   {genre[0].toUpperCase()}
                   {genre.slice(1).toLowerCase().replaceAll("_", " ")}
                 </p>
@@ -77,17 +77,19 @@ export default function Manga() {
           </div>
           <div className="flex flex-col gap-4">
             <div className="flex flex-row items-center justify-between">
-              <h1 className="text-5xl font-black">Chapters</h1>
+              <h1 className="text-5xl font-black dark:text-stone-50">
+                Chapters
+              </h1>
               <div className="flex flex-row gap-4">
                 <NavLink
                   to={`${data.chapters[data.chapters.length - 1].link}`}
-                  className="btn btn-soft btn-neutral"
+                  className="btn btn-soft btn-neutral dark:border-none dark:bg-stone-800 dark:text-stone-50 dark:hover:bg-stone-700"
                 >
                   Start reading
                 </NavLink>
                 <NavLink
                   to={`${data.chapters[0].link}`}
-                  className="btn btn-soft btn-neutral"
+                  className="btn btn-soft btn-neutral dark:border-none dark:bg-stone-800 dark:text-stone-50 dark:hover:bg-stone-700"
                 >
                   Read latest chapter
                 </NavLink>
@@ -102,7 +104,7 @@ export default function Manga() {
               }) => (
                 <NavLink
                   to={chapter.link}
-                  className="flex flex-col gap-2 rounded-3xl bg-gray-100 p-4 shadow"
+                  className="flex flex-col gap-2 rounded-3xl bg-gray-100 p-4 shadow dark:bg-stone-700 dark:text-stone-50"
                   key={chapter.link}
                 >
                   <h1 className="text-lg font-medium">{chapter.title}</h1>

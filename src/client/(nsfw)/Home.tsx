@@ -58,9 +58,11 @@ export default function NSFWHome() {
     <main className="relative mx-auto mb-12 flex min-h-screen max-w-7xl flex-col gap-4">
       <Header />
       <div className="flex flex-col gap-4">
-        <h1 className="text-4xl font-black">Popular titles</h1>
+        <h1 className="text-4xl font-black dark:text-stone-50">
+          Popular titles
+        </h1>
         {trendingManhwasData && trendingManhwasData.status == 200 ? (
-          <div className="grid grid-cols-6 gap-4 rounded-3xl border border-gray-200 bg-gray-50 p-8 shadow-md">
+          <div className="grid grid-cols-6 gap-4 rounded-3xl border border-gray-200 bg-gray-50 p-8 shadow-md dark:border-none dark:bg-stone-800 dark:text-stone-50">
             {trendingManhwasData.manhwas.slice(0, 6).map((manhwa: any) => (
               <NavLink
                 to={`/manhwa/${manhwa.url}`}
@@ -80,7 +82,7 @@ export default function NSFWHome() {
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-6 gap-4">
+          <div className="grid grid-cols-6 gap-4 dark:border-none dark:bg-stone-800 dark:text-stone-50">
             <div className="skeleton h-[360px] w-[240px]" />
             <div className="skeleton h-[360px] w-[240px]" />
             <div className="skeleton h-[360px] w-[240px]" />
@@ -91,9 +93,11 @@ export default function NSFWHome() {
         )}
       </div>
       <div className="flex flex-col gap-4">
-        <h1 className="text-4xl font-black">Latest releases</h1>
+        <h1 className="text-4xl font-black dark:text-stone-50">
+          Latest releases
+        </h1>
         {latestManhwasData && trendingManhwasData.status == 200 ? (
-          <div className="grid grid-cols-3 gap-4 rounded-3xl border border-gray-200 bg-gray-50 p-8 shadow-md">
+          <div className="grid grid-cols-3 gap-4 rounded-3xl border border-gray-200 bg-gray-50 p-8 shadow-md dark:border-none dark:bg-stone-800 dark:text-stone-50">
             {latestManhwasData.manhwas.map((release: any) => (
               <NavLink
                 to={`/manhwa/${release.url}`}
@@ -108,12 +112,10 @@ export default function NSFWHome() {
                   <h1 className="max-h-[128px] text-xl font-medium">
                     {release.title}
                   </h1>
-                  <ul className="menu bg-base-300 rounded-box">
+                  <ul className="menu bg-base-300 rounded-box dark:bg-stone-700">
                     {release.chapters.map((chapter: any) => (
                       <li>
-                        <NavLink
-                          to={`/manga/${release.mangaUrl}/${chapter.url}`}
-                        >
+                        <NavLink to={`/manhwa/${chapter.url}`}>
                           {chapter.title}
                         </NavLink>
                       </li>
@@ -124,7 +126,7 @@ export default function NSFWHome() {
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-3 gap-4 rounded-3xl border border-gray-200 bg-gray-50 p-8 shadow-md">
+          <div className="grid grid-cols-3 gap-4 rounded-3xl border border-gray-200 bg-gray-50 p-8 shadow-md dark:border-none dark:bg-stone-800 dark:text-stone-50">
             <div className="grid grid-cols-2 items-start gap-4 overflow-hidden">
               <div className="skeleton h-full" />
               <div className="flex flex-col gap-4">

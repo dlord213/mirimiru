@@ -6,17 +6,19 @@ import ViewMangaChapter from "./(mangas)/ViewChapter";
 import MangaLayout from "./(mangas)/MangaLayout";
 import Search from "./Search";
 import GlobalFallback from "./GlobalFallback";
-
-import { createBrowserRouter, RouterProvider } from "react-router";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
-import "./global.css";
 import GlobalErrorBoundary from "./GlobalErrorBoundary";
 import AgeVerify from "./(nsfw)/AgeVerify";
 import NSFWHome from "./(nsfw)/Home";
 import ManhwaLayout from "./(manhwas)/ManhwaLayout";
 import Manhwa from "./(manhwas)/Manhwa";
 import ViewManhwaChapter from "./(manhwas)/ViewChapter";
+import ViewLatestReleases from "./(links)/Latest";
+
+import { createBrowserRouter, RouterProvider } from "react-router";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+import "./global.css";
+import ViewPopularReleases from "./(links)/Popular";
 
 const queryClient = new QueryClient();
 
@@ -122,6 +124,18 @@ const router = createBrowserRouter([
         },
       },
     ],
+  },
+  {
+    path: "latest",
+    Component: ViewLatestReleases,
+    HydrateFallback: GlobalFallback,
+    ErrorBoundary: GlobalErrorBoundary,
+  },
+  {
+    path: "popular",
+    Component: ViewPopularReleases,
+    HydrateFallback: GlobalFallback,
+    ErrorBoundary: GlobalErrorBoundary,
   },
 ]);
 

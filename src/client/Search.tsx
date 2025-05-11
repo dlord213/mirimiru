@@ -16,8 +16,8 @@ export default function Search() {
     <main className="relative mx-auto mb-12 flex min-h-screen max-w-7xl flex-col gap-4">
       <Header />
       <div className="flex flex-col">
-        <p className="text-gray-400">Searched for</p>
-        <h1 className="text-4xl font-bold">
+        <p className="text-gray-400 dark:text-stone-400">Searched for</p>
+        <h1 className="text-4xl font-bold dark:text-stone-50">
           {data.query.replaceAll("_", " ")}
         </h1>
       </div>
@@ -32,16 +32,16 @@ export default function Search() {
               className="h-full rounded-3xl object-cover shadow"
             />
             <div className="flex flex-col gap-6 overflow-hidden">
-              <h1 className="max-h-[128px] text-xl font-medium">
+              <h1 className="max-h-[128px] text-xl font-medium overflow-y-auto dark:text-stone-50">
                 {manga.title}
               </h1>
               <div className="flex flex-row items-center gap-4">
-                <Clock size={24} color="#242424" />
-                <p className="">
+                <Clock size={24} className="text-[#242424] dark:text-stone-50" />
+                <p className="dark:text-stone-50">
                   {dayjs(manga.lastUpdated).format("MM/DD").toString()}
                 </p>
               </div>
-              <ul className="menu bg-base-300 rounded-box">
+              <ul className="menu bg-base-300 rounded-box dark:bg-stone-700 dark:text-stone-50">
                 {manga.chapters.map((chapter: any) => (
                   <li>
                     <NavLink to={`/manga/${manga.mangaUrl}/${chapter.url}`}>

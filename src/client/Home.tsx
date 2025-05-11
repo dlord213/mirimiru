@@ -33,12 +33,12 @@ function Home() {
   });
 
   return (
-    <main className="relative mx-auto mb-12 flex min-h-screen max-w-7xl flex-col gap-4">
+    <main className="relative mx-auto mb-12 flex min-h-screen max-w-7xl flex-col gap-4 dark:bg-stone-950">
       <Header />
       <div className="flex flex-col gap-4">
-        <h1 className="text-4xl font-black">Popular titles</h1>
+        <h1 className="text-4xl font-black dark:text-stone-50">Popular titles</h1>
         {hottestMangaData && hottestMangaData.status == 200 ? (
-          <div className="grid grid-cols-6 gap-4 rounded-3xl border border-gray-200 bg-gray-50 p-8 shadow-md">
+          <div className="grid grid-cols-6 gap-4 rounded-3xl border border-gray-200 bg-gray-50 p-8 shadow-md dark:border-none dark:bg-stone-800">
             {hottestMangaData.mangas.slice(0, 6).map((manga: any) => (
               <NavLink
                 to={`/manga/${manga.mangaUrl}`}
@@ -69,9 +69,9 @@ function Home() {
         )}
       </div>
       <div className="flex flex-col gap-4">
-        <h1 className="text-4xl font-black">Latest releases</h1>
+        <h1 className="text-4xl font-black dark:text-stone-50">Latest releases</h1>
         {latestMangaReleases && latestMangaReleases.status == 200 ? (
-          <div className="grid grid-cols-3 gap-4 rounded-3xl border border-gray-200 bg-gray-50 p-8 shadow-md">
+          <div className="grid grid-cols-3 gap-4 rounded-3xl border border-gray-200 bg-gray-50 p-8 shadow-md dark:border-none dark:bg-stone-800">
             {latestMangaReleases.new_releases.map((release: any) => (
               <NavLink
                 to={`/manga/${release.mangaUrl}`}
@@ -82,10 +82,10 @@ function Home() {
                   className="h-full rounded-3xl object-cover shadow"
                 />
                 <div className="flex flex-col gap-4 overflow-hidden">
-                  <h1 className="max-h-[128px] text-xl font-medium">
+                  <h1 className="max-h-[128px] text-xl font-medium dark:text-stone-50">
                     {release.title}
                   </h1>
-                  <ul className="menu bg-base-300 rounded-box">
+                  <ul className="menu bg-base-300 rounded-box dark:bg-stone-700 dark:text-stone-50">
                     {release.chapters.map((chapter: any) => (
                       <li>
                         <NavLink
