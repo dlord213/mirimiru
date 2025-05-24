@@ -11,8 +11,7 @@ export default function Header() {
   return (
     <header className="sticky top-2 z-50 my-4 flex h-full flex-row items-center justify-between rounded-xl border border-gray-200 bg-gray-50 p-4 shadow dark:border-none dark:bg-stone-900 dark:text-stone-100">
       <NavLink to="/" className="flex flex-row items-center gap-4">
-        <div className="h-[48px] w-[48px] rounded-3xl bg-gray-200" />
-        <h1 className="text-xl font-bold">Mirimiru</h1>
+        <h1 className="text-3xl ml-4 font-bold">mirimiru</h1>
       </NavLink>
       <div className="flex flex-row items-center gap-4">
         <NavLink

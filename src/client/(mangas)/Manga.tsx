@@ -3,14 +3,18 @@ import dayjs from "dayjs";
 import MangaContext from "../contexts/MangaContext";
 
 import { NavLink } from "react-router";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { ChartArea, Clock, UserPen } from "lucide-react";
 
 export default function Manga() {
   const data = useContext(MangaContext);
 
+  useEffect(() => {
+    document.title = `mirimiru / ${data.manga.title}`;
+  }, [data]);
+
   return (
-    <main className="relative mx-auto mb-4 flex min-h-screen max-w-7xl flex-col gap-4">
+    <main className="relative mx-auto flex min-h-screen max-w-7xl flex-col gap-4">
       <Header />
       <div className="absolute top-4 -z-50 h-[55vh] w-full">
         <img
@@ -19,7 +23,7 @@ export default function Manga() {
         />
       </div>
 
-      <div className="relative grid grid-flow-row gap-4">
+      <div className="relative mb-4 grid grid-flow-row gap-4">
         <div className="flex flex-row items-start gap-8 px-8">
           <img
             src={`/api/image-proxy?url=${data.manga.imageUrl}`}

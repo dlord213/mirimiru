@@ -1,7 +1,7 @@
 import MangaContext from "../contexts/MangaContext";
 
 import { NavLink, useLoaderData } from "react-router";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ArrowLeft, ArrowRight, Home } from "lucide-react";
 
 export default function ViewMangaChapter() {
@@ -49,6 +49,10 @@ export default function ViewMangaChapter() {
       </div>
     </>,
   ];
+
+  useEffect(() => {
+    document.title = `mirimiru / ${mangaData.manga.title}`;
+  }, [mangaData]);
 
   return (
     <main className="relative mx-auto flex h-screen max-w-7xl flex-col gap-4">

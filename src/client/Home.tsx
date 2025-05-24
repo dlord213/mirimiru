@@ -2,8 +2,8 @@ import Header from "./components/Header";
 import axios from "axios";
 
 import { useQuery } from "@tanstack/react-query";
-
 import { NavLink } from "react-router";
+import { useEffect } from "react";
 
 function Home() {
   const { data: hottestMangaData } = useQuery({
@@ -32,11 +32,19 @@ function Home() {
     refetchOnWindowFocus: false,
   });
 
+  useEffect(() => {
+    document.title = "mirimiru / Home";
+  }, []);
+
   return (
-    <main className="relative mx-auto mb-12 flex min-h-screen max-w-7xl flex-col gap-4 dark:bg-stone-950">
+    <main className="relative mx-auto flex min-h-screen max-w-7xl flex-col gap-4 dark:bg-stone-950">
       <Header />
+      <meta name="keywords" content="manga, webtoons, anime" />
+      <meta name="description" content="Mirimiru's homepage." />
       <div className="flex flex-col gap-4">
-        <h1 className="text-4xl font-black dark:text-stone-50">Popular titles</h1>
+        <h1 className="text-4xl font-black dark:text-stone-50">
+          Popular titles
+        </h1>
         {hottestMangaData && hottestMangaData.status == 200 ? (
           <div className="grid grid-cols-6 gap-4 rounded-3xl border border-gray-200 bg-gray-50 p-8 shadow-md dark:border-none dark:bg-stone-800">
             {hottestMangaData.mangas.slice(0, 6).map((manga: any) => (
@@ -58,7 +66,7 @@ function Home() {
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-6 gap-4">
+          <div className="grid grid-cols-6 gap-4 rounded-3xl border border-gray-200 bg-gray-50 p-8 shadow-md dark:border-none dark:bg-stone-800">
             <div className="skeleton h-[360px] w-[240px]" />
             <div className="skeleton h-[360px] w-[240px]" />
             <div className="skeleton h-[360px] w-[240px]" />
@@ -68,8 +76,10 @@ function Home() {
           </div>
         )}
       </div>
-      <div className="flex flex-col gap-4">
-        <h1 className="text-4xl font-black dark:text-stone-50">Latest releases</h1>
+      <div className="mb-4 flex flex-col gap-4">
+        <h1 className="text-4xl font-black dark:text-stone-50">
+          Latest releases
+        </h1>
         {latestMangaReleases && latestMangaReleases.status == 200 ? (
           <div className="grid grid-cols-3 gap-4 rounded-3xl border border-gray-200 bg-gray-50 p-8 shadow-md dark:border-none dark:bg-stone-800">
             {latestMangaReleases.new_releases.map((release: any) => (
@@ -101,7 +111,7 @@ function Home() {
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-3 gap-4 rounded-3xl border border-gray-200 bg-gray-50 p-8 shadow-md">
+          <div className="grid grid-cols-3 gap-4 rounded-3xl border border-gray-200 bg-gray-50 p-8 shadow-md dark:border-none dark:bg-stone-800">
             <div className="grid grid-cols-2 items-start gap-4 overflow-hidden">
               <div className="skeleton h-full" />
               <div className="flex flex-col gap-4">

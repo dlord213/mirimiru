@@ -26,6 +26,8 @@ export default function ViewLatestReleases() {
   });
 
   useEffect(() => {
+    document.title = "mirimiru / Latest Mangas";
+
     const verified = localStorage.getItem("MIRIMIRU_NSFW_AGE_VERIFICATION");
 
     if (!verified) {
@@ -46,9 +48,17 @@ export default function ViewLatestReleases() {
   }
 
   return (
-    <main className="relative mx-auto mb-12 flex min-h-screen max-w-7xl flex-col gap-4 dark:bg-stone-950">
+    <main className="relative mx-auto flex min-h-screen max-w-7xl flex-col gap-4 dark:bg-stone-950">
       <Header />
-      <div className="mb-12 flex h-full flex-col gap-4">
+      <meta
+        name="keywords"
+        content="latest mangas, mangas, anime, manga, webtoon"
+      />
+      <meta
+        name="description"
+        content="Check out newly updated latest mangas in Mirimiru."
+      />
+      <div className="mb-24 flex h-full flex-col gap-4">
         {latestMangaReleases && latestMangaReleases.status == 200 ? (
           <div className="grid grid-cols-4 gap-4 rounded-3xl border border-gray-200 bg-gray-50 p-8 shadow-md dark:border-none dark:bg-stone-800">
             {latestMangaReleases.mangas.map((release: any) => (

@@ -26,6 +26,7 @@ export default function ViewPopularReleases() {
   });
 
   useEffect(() => {
+    document.title = "mirimiru / Popular Mangas";
     const verified = localStorage.getItem("MIRIMIRU_NSFW_AGE_VERIFICATION");
 
     if (!verified) {
@@ -46,9 +47,14 @@ export default function ViewPopularReleases() {
   }
 
   return (
-    <main className="relative mx-auto mb-12 flex min-h-screen max-w-7xl flex-col gap-4 dark:bg-stone-950">
+    <main className="relative mx-auto flex min-h-screen max-w-7xl flex-col gap-4 dark:bg-stone-950">
       <Header />
-      <div className="mb-12 flex h-full flex-col gap-4">
+      <meta
+        name="keywords"
+        content="popular mangas, mangas, anime, manga, webtoon"
+      />
+      <meta name="description" content="Read popular mangas in Mirimiru." />
+      <div className="mb-24 flex h-full flex-col gap-4">
         {hottestMangaReleases && hottestMangaReleases.status == 200 ? (
           <div className="grid grid-cols-4 gap-4 rounded-3xl border border-gray-200 bg-gray-50 p-8 shadow-md dark:border-none dark:bg-stone-800">
             {hottestMangaReleases.mangas.map((release: any) => (

@@ -12,7 +12,7 @@ export default function Manhwa() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(data);
+    document.title = `mirimiru / ${data.manhwa.title}`;
   }, [data]);
 
   useEffect(() => {
@@ -88,7 +88,10 @@ export default function Manhwa() {
               <h1 className="text-xl font-medium dark:text-stone-50">Genres</h1>
               <div className="flex flex-row flex-wrap gap-2">
                 {data.manhwa.genres.map((genre: string) => (
-                  <p className="w-fit bg-gray-100 p-4 shadow dark:shadow-none rounded-xl dark:bg-stone-700 dark:text-stone-50" key={genre}>
+                  <p
+                    className="w-fit rounded-xl bg-gray-100 p-4 shadow dark:bg-stone-700 dark:text-stone-50 dark:shadow-none"
+                    key={genre}
+                  >
                     {genre[0].toUpperCase()}
                     {genre.slice(1).toLowerCase().replaceAll("_", " ")}
                   </p>
@@ -97,17 +100,19 @@ export default function Manhwa() {
             </div>
             <div className="flex flex-col gap-4">
               <div className="flex flex-row items-center justify-between">
-                <h1 className="text-5xl font-black dark:text-stone-50">Chapters</h1>
+                <h1 className="text-5xl font-black dark:text-stone-50">
+                  Chapters
+                </h1>
                 <div className="flex flex-row gap-4">
                   <NavLink
                     to={`${data.manhwa.chapters[data.manhwa.chapters.length - 1].link}`}
-                    className="btn btn-soft btn-neutral dark:bg-stone-800 dark:hover:bg-stone-700 dark:border-none dark:text-stone-50"
+                    className="btn btn-soft btn-neutral dark:border-none dark:bg-stone-800 dark:text-stone-50 dark:hover:bg-stone-700"
                   >
                     Start reading
                   </NavLink>
                   <NavLink
                     to={`${data.manhwa.chapters[0].link}`}
-                    className="btn btn-soft btn-neutral dark:bg-stone-800 dark:hover:bg-stone-700 dark:border-none dark:text-stone-50"
+                    className="btn btn-soft btn-neutral dark:border-none dark:bg-stone-800 dark:text-stone-50 dark:hover:bg-stone-700"
                   >
                     Read latest chapter
                   </NavLink>

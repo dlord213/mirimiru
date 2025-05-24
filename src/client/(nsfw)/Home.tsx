@@ -35,6 +35,7 @@ export default function NSFWHome() {
   });
 
   useEffect(() => {
+    document.title = "mirimiru / Home";
     const verified = localStorage.getItem("MIRIMIRU_NSFW_AGE_VERIFICATION");
 
     if (!verified) {

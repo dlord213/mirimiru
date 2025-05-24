@@ -30,7 +30,7 @@ export default function AgeVerify() {
     <main className="relative mx-auto mb-12 flex min-h-screen max-w-7xl flex-col items-center justify-center gap-4">
       <div className="flex w-full max-w-xl flex-col gap-4">
         <h1 className="text-3xl font-bold">mirimiru</h1>
-        <div className="flex flex-row items-center gap-8 rounded-3xl border-gray-400 bg-gray-50 p-8 shadow">
+        <div className="flex flex-row items-center gap-8 rounded-3xl border-gray-400 bg-gray-50 p-8 shadow dark:bg-stone-800">
           <AlertTriangle size={48} className="shrink-0" />
           <div className="flex flex-col gap-2">
             <h1 className="text-xl font-medium">

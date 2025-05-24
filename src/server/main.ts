@@ -465,6 +465,71 @@ app.get("/api/manganato/get-manga-images", async (req, res) => {
     res.send({ error: err, status: 400 });
   }
 });
+
+app.get("/api/manganato/get-filtered-genre-mangas", async (req, res) => {
+  try {
+    if (!req.query.genre) {
+      res.send({ status: 400, message: "No genre query." });
+    }
+    
+
+    const { data } = await axios.get(
+      `https://www.natomanga.com/genre/${req.query.genre}?page=${req.query.page}`,
+      {
+        headers: {
+          "User-Agent":
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+          Referer: "https://www.natomanga.com/",
+          "Accept-Language": "en-US,en;q=0.9",
+        },
+      },
+    );
+    const $ = cheerio.load(data);
+
+    const mangas: {
+      title: string;
+      mangaUrl: string | undefined;
+      imageUrl: string | undefined;
+      latestChapter: string;
+      chapterUrl: string | undefined;
+      views: string;
+      description: string;
+    }[] = [];
+
+    $(".list-truyen-item-wrap").each((i, el) => {
+      const title = $(el).find("h3 a").text().trim();
+      const mangaUrl = $(el)
+        .find("a.list-story-item")
+        .attr("href")
+        ?.split("/")
+        .pop();
+      const imageUrl = $(el).find("img").attr("src");
+      const latestChapter = $(el)
+        .find("a.list-story-item-wrap-chapter")
+        .text()
+        .trim();
+      const chapterUrl = $(el)
+        .find("a.list-story-item-wrap-chapter")
+        .attr("href");
+      const views = $(el).find(".aye_icon").text().trim();
+      const description = $(el).find("p").text().trim();
+
+      mangas.push({
+        title,
+        mangaUrl,
+        imageUrl,
+        latestChapter,
+        chapterUrl,
+        views,
+        description,
+      });
+    });
+
+    res.send({ status: 200, mangas: mangas });
+  } catch (err) {
+    res.send({ status: 400, error: err });
+  }
+});
 // ========================== Manga APIs ========================== //
 
 // ========================== Manhwa APIs ========================== //

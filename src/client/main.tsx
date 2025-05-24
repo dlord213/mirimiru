@@ -13,12 +13,13 @@ import ManhwaLayout from "./(manhwas)/ManhwaLayout";
 import Manhwa from "./(manhwas)/Manhwa";
 import ViewManhwaChapter from "./(manhwas)/ViewChapter";
 import ViewLatestReleases from "./(links)/Latest";
+import ViewPopularReleases from "./(links)/Popular";
+import ViewGenres from "./(links)/GenreSelection";
 
 import { createBrowserRouter, RouterProvider } from "react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import "./global.css";
-import ViewPopularReleases from "./(links)/Popular";
 
 const queryClient = new QueryClient();
 
@@ -136,6 +137,17 @@ const router = createBrowserRouter([
     Component: ViewPopularReleases,
     HydrateFallback: GlobalFallback,
     ErrorBoundary: GlobalErrorBoundary,
+  },
+  {
+    path: "genres",
+    Component: ViewGenres,
+    HydrateFallback: GlobalFallback,
+    ErrorBoundary: GlobalErrorBoundary,
+    children: [
+      {
+        path: ":genre",
+      },
+    ],
   },
 ]);
 
